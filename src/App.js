@@ -30,6 +30,8 @@ const App = () => {
 
   const updateUser = (newUser) => {
     setUsers(users.map(user => (user.id === currentUser.id ? newUser : user)))
+    setCurrentUser(initialUser)
+    setEditing(false)
   }
 
   return (
