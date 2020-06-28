@@ -13,7 +13,9 @@ const AddUserForm = (props) => {
 
     const handleSubmit = e => {
         e.preventDefault();
-        if (user.name && user.username) props.addUser(user);
+        if (user.name && user.username) {
+            handleChange(e, props.addUser(user));
+        }
     }
 
     return (

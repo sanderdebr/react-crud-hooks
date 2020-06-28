@@ -1,14 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import userList from "./data.js";
 import UserTable from "./tables/UserTable";
 import AddUserForm from "./forms/AddUserForm";
 import EditUserForm from "./forms/EditUserForm";
 
+import { useAsyncRequest } from "./hooks";
+
 const App = () => {
-  const [users, setUsers] = useState(userList);
+  const [data, loading] = useAsyncRequest(3);
+  // Fixed array of users:
+  // const [users, setUsers] = userList;
+  const [users, setUsers] = useState(null);
+
+  useEffect(() => {
+    if (data) {
+      const formattedUsers = data.map((obj, i) => {
+        return {
+          id: i,
+          name: obj.name.first,
+          username: obj.name.first + " " + obj.name.last,
+        };
+      });
+      setUsers(formattedUsers);
+    }
+  }, [data]);
 
   const addUser = (user) => {
-    user.id = users.length + 1;
+    user.id = users.length;
     setUsers([...users, user]);
   };
 
@@ -56,14 +74,19 @@ const App = () => {
             </div>
           )}
         </div>
-        <div className="seven columns">
-          <h2>View users</h2>
-          <UserTable
-            users={users}
-            deleteUser={deleteUser}
-            editUser={editUser}
-          />
-        </div>
+        {loading || !users ? (
+          <p>Loading...</p>
+        ) : (
+          <div className="seven columns">
+            <h2>View users</h2>
+
+            <UserTable
+              users={users}
+              deleteUser={deleteUser}
+              editUser={editUser}
+            />
+          </div>
+        )}
       </div>
     </div>
   );
