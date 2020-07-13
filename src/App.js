@@ -8,7 +8,7 @@ const App = () => {
   const [users, setUsers] = useState(userList);
 
   const addUser = (user) => {
-    user.id = users.length + 1;
+    user.id = users.length;
     setUsers([...users, user]);
   };
 
@@ -50,11 +50,11 @@ const App = () => {
               />
             </div>
           ) : (
-            <div>
-              <h2>Add user</h2>
-              <AddUserForm addUser={addUser} />
-            </div>
-          )}
+              <div>
+                <h2>Add user</h2>
+                <AddUserForm addUser={addUser} />
+              </div>
+            )}
         </div>
         <div className="seven columns">
           <h2>View users</h2>
