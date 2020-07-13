@@ -6,9 +6,11 @@ import EditUserForm from "./forms/EditUserForm";
 
 const App = () => {
   const [users, setUsers] = useState(userList);
+  const [lastIndex, setLastIndex] = useState(userList.length - 1);
 
   const addUser = (user) => {
-    user.id = users.length;
+    user.id = lastIndex + 1;
+    setLastIndex(lastIndex + 1);
     setUsers([...users, user]);
   };
 
